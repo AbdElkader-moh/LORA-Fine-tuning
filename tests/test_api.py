@@ -29,6 +29,12 @@ def test_health(client):
     assert response.json() == {"status": "ok", "model_loaded": True}
 
 
+def test_labels(client):
+    response = client.get("/labels")
+    assert response.status_code == 200
+    assert response.json() == {"labels": CLASS_NAMES}
+
+
 def test_predict_returns_ranked_labels(client):
     response = client.post("/predict", files={"file": ("tile.jpg", jpeg_bytes(), "image/jpeg")})
     assert response.status_code == 200

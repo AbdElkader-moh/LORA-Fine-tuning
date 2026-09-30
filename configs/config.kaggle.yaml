@@ -1,0 +1,24 @@
+data:
+  data_root: /kaggle/working/eurosat_data
+  data_url: https://zenodo.org/records/7711810/files/EuroSAT_RGB.zip?download=1
+  val_size: 0.15
+  test_size: 0.15
+  seed: 42
+
+model:
+  name: google/vit-base-patch16-224
+
+lora:
+  layer_indices: [9, 10, 11]
+  target_projections: [query, value]
+  r: 32
+  alpha: 32
+
+training:
+  batch_size: 32
+  epochs: 6
+  lr: 0.001
+  num_workers: 2
+
+checkpoint:
+  dir: /kaggle/working/checkpoints

@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# datasets, training outputs and model binaries stay out of git
+data/
+checkpoints/
+logs/
+onnx_models/
+artifacts/*
+!artifacts/.gitkeep
+*.onnx
+*.trt

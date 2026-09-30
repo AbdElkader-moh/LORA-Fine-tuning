@@ -1,0 +1,26 @@
+# Local CPU-friendly config. For the full-dataset GPU run use configs/config.kaggle.yaml.
+data:
+  data_root: data
+  data_url: https://zenodo.org/records/7711810/files/EuroSAT_RGB.zip?download=1
+  val_size: 0.15
+  test_size: 0.15
+  seed: 42
+  max_per_class: 300   # 300 x 10 classes = 3,000 images; remove to use all 27,000
+
+model:
+  name: google/vit-base-patch16-224
+
+lora:
+  layer_indices: [9, 10, 11]
+  target_projections: [query, value]
+  r: 32
+  alpha: 32
+
+training:
+  batch_size: 16
+  epochs: 3
+  lr: 0.001
+  num_workers: 0
+
+checkpoint:
+  dir: checkpoints

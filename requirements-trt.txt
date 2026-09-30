@@ -1,0 +1,6 @@
+# TensorRT stack - install separately, only on a machine with a CUDA GPU and
+# TensorRT set up (Kaggle GPU image, NVIDIA GPU box, or Jetson). `tensorrt`
+# is not a plain cross-platform pip package: on x86 it usually comes from
+# NVIDIA's own wheel index or is already preinstalled on GPU-enabled images.
+tensorrt
+pycuda

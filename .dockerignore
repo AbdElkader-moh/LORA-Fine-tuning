@@ -1,0 +1,10 @@
+.git
+.github
+data
+checkpoints
+logs
+artifacts
+tests
+samples
+*.ipynb
+__pycache__

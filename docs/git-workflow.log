@@ -1,0 +1,389 @@
+$ git init -b main
+Initialized empty Git repository in C:/Users/bidoo/Downloads/Assignment 11/Assignment 10/.git/
+
+$ git remote add origin git@github.com:AbdElkader-moh/LORA-Fine-tuning.git
+
+$ git status --short
+?? .dockerignore
+?? .github/
+?? .gitignore
+?? Dockerfile
+?? README.md
+?? app/
+?? artifacts/
+?? configs/
+?? evaluate.py
+?? export_onnx.py
+?? notebookfebf33a783.ipynb
+?? onnx_infer.py
+?? onnx_runtime_infer/
+?? quantize.py
+?? requirements-dev.txt
+?? requirements-serve.txt
+?? requirements-trt.txt
+?? requirements.txt
+?? tensorrt_infer/
+?? tests/
+?? train.py
+?? trt_infer.py
+?? vit_lora/
+
+$ git add .gitignore configs vit_lora/__init__.py vit_lora/config.py vit_lora/data.py vit_lora/engine.py vit_lora/evaluation.py vit_lora/lora.py vit_lora/model.py vit_lora/processor.py vit_lora/trainer.py train.py evaluate.py export_onnx.py onnx_infer.py trt_infer.py onnx_runtime_infer tensorrt_infer requirements.txt requirements-trt.txt notebookfebf33a783.ipynb
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'configs/config.kaggle.yaml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'configs/config.yaml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'evaluate.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'export_onnx.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'onnx_infer.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'onnx_runtime_infer/inference.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'requirements-trt.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'requirements.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tensorrt_infer/build_engine.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tensorrt_infer/inference.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'train.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'trt_infer.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vit_lora/config.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vit_lora/data.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vit_lora/engine.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vit_lora/evaluation.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vit_lora/lora.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vit_lora/model.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vit_lora/processor.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vit_lora/trainer.py', LF will be replaced by CRLF the next time Git touches it
+
+$ git commit -q -m Add LoRA fine-tuning pipeline for ViT on EuroSAT
+
+$ git add vit_lora/quantization.py quantize.py artifacts/.gitkeep
+warning: in the working copy of 'quantize.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vit_lora/quantization.py', LF will be replaced by CRLF the next time Git touches it
+
+$ git commit -q -m Add LoRA merge and INT8 dynamic quantization
+
+$ git add app Dockerfile .dockerignore requirements-serve.txt
+warning: in the working copy of '.dockerignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Dockerfile', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/main.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/predictor.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'requirements-serve.txt', LF will be replaced by CRLF the next time Git touches it
+
+$ git commit -q -m Add FastAPI inference service and Dockerfile
+
+$ git status
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.github/
+	README.md
+	requirements-dev.txt
+	tests/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+$ git log --oneline
+2d6294a Add FastAPI inference service and Dockerfile
+2d30c6c Add LoRA merge and INT8 dynamic quantization
+bcc7bf8 Add LoRA fine-tuning pipeline for ViT on EuroSAT
+
+$ git push -u origin main
+branch 'main' set up to track 'origin/main'.
+To github.com:AbdElkader-moh/LORA-Fine-tuning.git
+ * [new branch]      main -> main
+
+$ git checkout -b develop
+Switched to a new branch 'develop'
+
+$ git add tests requirements-dev.txt
+
+$ git commit -q -m Add unit and API tests
+
+$ git add .github README.md
+
+$ git commit -q -m Add GitHub Actions CI workflow and README
+
+$ git push -u origin develop
+remote: 
+remote: Create a pull request for 'develop' on GitHub by visiting:        
+remote:      https://github.com/AbdElkader-moh/LORA-Fine-tuning/pull/new/develop        
+remote: 
+branch 'develop' set up to track 'origin/develop'.
+To github.com:AbdElkader-moh/LORA-Fine-tuning.git
+ * [new branch]      develop -> develop
+
+$ git status --short
+ M app/main.py
+ M tests/test_api.py
+
+$ git diff --stat
+ app/main.py       | 7 ++++++-
+ tests/test_api.py | 6 ++++++
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+$ git add app/main.py tests/test_api.py
+
+$ git commit -q -m Add /labels endpoint, bump API to 1.1.0
+
+$ git push
+To github.com:AbdElkader-moh/LORA-Fine-tuning.git
+   aaf2999..876db16  develop -> develop
+
+$ git log --oneline --graph --all
+* 876db16 Add /labels endpoint, bump API to 1.1.0
+* aaf2999 Add GitHub Actions CI workflow and README
+* 4512542 Add unit and API tests
+* 2d6294a Add FastAPI inference service and Dockerfile
+* 2d30c6c Add LoRA merge and INT8 dynamic quantization
+* bcc7bf8 Add LoRA fine-tuning pipeline for ViT on EuroSAT
+
+$ git checkout main
+Your branch is up to date with 'origin/main'.
+Switched to branch 'main'
+
+$ git status --short
+ M app/main.py
+
+$ git diff
+diff --git a/app/main.py b/app/main.py
+index 2af12b8..9a697e2 100644
+--- a/app/main.py
++++ b/app/main.py
+@@ -20,14 +20,14 @@ app = FastAPI(
+     title="ViT-LoRA EuroSAT classifier",
+     description="Land-use classification of satellite images with a LoRA fine-tuned, "
+                 "INT8-quantized Vision Transformer.",
+-    version="1.0.0",
++    version="1.0.1",
+     lifespan=lifespan,
+ )
+ 
+ 
+ @app.get("/health")
+ def health():
+-    return {"status": "ok", "model_loaded": True}
++    return {"status": "ok", "model_loaded": True, "version": app.version}
+ 
+ 
+ @app.post("/predict")
+
+$ git add app/main.py
+
+$ git commit -q -m Report API version in /health, bump to 1.0.1
+
+$ git push origin main
+To github.com:AbdElkader-moh/LORA-Fine-tuning.git
+   2d6294a..f1afc0d  main -> main
+
+$ git diff --stat main develop
+ .github/workflows/ci.yml   | 57 +++++++++++++++++++++++++++++++++++++
+ README.md                  | 67 +++++++++++++++++++++++++++++++++++++++++++
+ app/main.py                |  9 ++++--
+ requirements-dev.txt       |  3 ++
+ tests/__init__.py          |  0
+ tests/conftest.py          | 33 +++++++++++++++++++++
+ tests/test_api.py          | 71 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/test_lora.py         | 43 ++++++++++++++++++++++++++++
+ tests/test_quantization.py | 33 +++++++++++++++++++++
+ 9 files changed, 314 insertions(+), 2 deletions(-)
+
+$ git diff main develop -- app/main.py
+diff --git a/app/main.py b/app/main.py
+index 9a697e2..42a1ffe 100644
+--- a/app/main.py
++++ b/app/main.py
+@@ -20,14 +20,19 @@ app = FastAPI(
+     title="ViT-LoRA EuroSAT classifier",
+     description="Land-use classification of satellite images with a LoRA fine-tuned, "
+                 "INT8-quantized Vision Transformer.",
+-    version="1.0.1",
++    version="1.1.0",
+     lifespan=lifespan,
+ )
+ 
+ 
+ @app.get("/health")
+ def health():
+-    return {"status": "ok", "model_loaded": True, "version": app.version}
++    return {"status": "ok", "model_loaded": True}
++
++
++@app.get("/labels")
++def labels():
++    return {"labels": app.state.predictor.class_names}
+ 
+ 
+ @app.post("/predict")
+
+$ git log --oneline --graph --all
+* f1afc0d Report API version in /health, bump to 1.0.1
+| * 876db16 Add /labels endpoint, bump API to 1.1.0
+| * aaf2999 Add GitHub Actions CI workflow and README
+| * 4512542 Add unit and API tests
+|/  
+* 2d6294a Add FastAPI inference service and Dockerfile
+* 2d30c6c Add LoRA merge and INT8 dynamic quantization
+* bcc7bf8 Add LoRA fine-tuning pipeline for ViT on EuroSAT
+
+$ git merge develop
+Auto-merging app/main.py
+CONFLICT (content): Merge conflict in app/main.py
+Automatic merge failed; fix conflicts and then commit the result.
+
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Changes to be committed:
+	new file:   .github/workflows/ci.yml
+	new file:   README.md
+	new file:   requirements-dev.txt
+	new file:   tests/__init__.py
+	new file:   tests/conftest.py
+	new file:   tests/test_api.py
+	new file:   tests/test_lora.py
+	new file:   tests/test_quantization.py
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   app/main.py
+
+
+$ git diff
+diff --cc app/main.py
+index 9a697e2,42a1ffe..0000000
+--- a/app/main.py
++++ b/app/main.py
+@@@ -20,16 -20,21 +20,25 @@@ app = FastAPI
+      title="ViT-LoRA EuroSAT classifier",
+      description="Land-use classification of satellite images with a LoRA fine-tuned, "
+                  "INT8-quantized Vision Transformer.",
+++<<<<<<< HEAD
+ +    version="1.0.1",
+++=======
++     version="1.1.0",
+++>>>>>>> develop
+      lifespan=lifespan,
+  )
+  
+  
+  @app.get("/health")
+  def health():
+ -    return {"status": "ok", "model_loaded": True}
+ +    return {"status": "ok", "model_loaded": True, "version": app.version}
+  
+  
++ @app.get("/labels")
++ def labels():
++     return {"labels": app.state.predictor.class_names}
++ 
++ 
+  @app.post("/predict")
+  def predict(file: UploadFile = File(...), top_k: int = Query(3, ge=1, le=10)):
+      content = file.file.read(MAX_UPLOAD_BYTES + 1)
+
+# resolved app/main.py by hand: kept version 1.1.0 (develop) + version in /health (main); updated test_health to match
+
+$ git add app/main.py tests/test_api.py
+
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+	new file:   .github/workflows/ci.yml
+	new file:   README.md
+	modified:   app/main.py
+	new file:   requirements-dev.txt
+	new file:   tests/__init__.py
+	new file:   tests/conftest.py
+	new file:   tests/test_api.py
+	new file:   tests/test_lora.py
+	new file:   tests/test_quantization.py
+
+
+$ git commit -q -m Merge branch 'develop' into main -m Resolve conflict in app/main.py: keep API version 1.1.0 from develop together with the /health version field from main.
+
+$ git log --oneline --graph --all
+*   415b805 Merge branch 'develop' into main
+|\  
+| * 876db16 Add /labels endpoint, bump API to 1.1.0
+| * aaf2999 Add GitHub Actions CI workflow and README
+| * 4512542 Add unit and API tests
+* | f1afc0d Report API version in /health, bump to 1.0.1
+|/  
+* 2d6294a Add FastAPI inference service and Dockerfile
+* 2d30c6c Add LoRA merge and INT8 dynamic quantization
+* bcc7bf8 Add LoRA fine-tuning pipeline for ViT on EuroSAT
+
+$ git push origin main
+To github.com:AbdElkader-moh/LORA-Fine-tuning.git
+   f1afc0d..415b805  main -> main
+
+# --- second clone (teammate): bring main's hotfix back into develop and push ---
+$ git clone -q -b develop git@github.com:AbdElkader-moh/LORA-Fine-tuning.git teammate
+
+$ git merge origin/main -m Merge branch 'main' into develop
+Updating 876db16..415b805
+Fast-forward (no commit created; -m option ignored)
+ app/main.py       | 2 +-
+ tests/test_api.py | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+$ git push origin develop
+To github.com:AbdElkader-moh/LORA-Fine-tuning.git
+   876db16..415b805  develop -> develop
+
+# --- back in the original working copy ---
+$ git checkout develop
+Your branch is up to date with 'origin/develop'.
+Switched to branch 'develop'
+
+$ git fetch origin
+From github.com:AbdElkader-moh/LORA-Fine-tuning
+   876db16..415b805  develop    -> origin/develop
+
+$ git status
+On branch develop
+Your branch is behind 'origin/develop' by 2 commits, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+
+nothing to commit, working tree clean
+
+$ git pull origin develop
+From github.com:AbdElkader-moh/LORA-Fine-tuning
+ * branch            develop    -> FETCH_HEAD
+Updating 876db16..415b805
+Fast-forward
+ app/main.py       | 2 +-
+ tests/test_api.py | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+$ git diff main develop --stat
+
+$ git branch -vv
+* develop 415b805 [origin/develop] Merge branch 'develop' into main
+  main    415b805 [origin/main] Merge branch 'develop' into main
+
+$ git log --oneline --graph --all
+*   415b805 Merge branch 'develop' into main
+|\  
+| * 876db16 Add /labels endpoint, bump API to 1.1.0
+| * aaf2999 Add GitHub Actions CI workflow and README
+| * 4512542 Add unit and API tests
+* | f1afc0d Report API version in /health, bump to 1.0.1
+|/  
+* 2d6294a Add FastAPI inference service and Dockerfile
+* 2d30c6c Add LoRA merge and INT8 dynamic quantization
+* bcc7bf8 Add LoRA fine-tuning pipeline for ViT on EuroSAT
+
+$ git status
+On branch develop
+Your branch is up to date with 'origin/develop'.
+
+nothing to commit, working tree clean
+

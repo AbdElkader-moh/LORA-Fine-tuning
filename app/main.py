@@ -20,7 +20,7 @@ app = FastAPI(
     title="ViT-LoRA EuroSAT classifier",
     description="Land-use classification of satellite images with a LoRA fine-tuned, "
                 "INT8-quantized Vision Transformer.",
-    version="1.0.1",
+    version="1.1.0",
     lifespan=lifespan,
 )
 
@@ -28,6 +28,11 @@ app = FastAPI(
 @app.get("/health")
 def health():
     return {"status": "ok", "model_loaded": True, "version": app.version}
+
+
+@app.get("/labels")
+def labels():
+    return {"labels": app.state.predictor.class_names}
 
 
 @app.post("/predict")

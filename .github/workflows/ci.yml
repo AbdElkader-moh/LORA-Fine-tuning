@@ -37,6 +37,14 @@ jobs:
         run: docker build -t $IMAGE_NAME:${{ github.sha }} .
       - name: Check the app imports inside the image
         run: docker run --rm $IMAGE_NAME:${{ github.sha }} python -c "import app.main; print('image OK')"
+      - name: Validate Prometheus config and alert rules
+        run: |
+          docker run --rm -v "$PWD/observability/prometheus:/etc/prometheus" --entrypoint promtool \
+            prom/prometheus:v3.5.0 check config /etc/prometheus/prometheus.yml
+      - name: Check the Grafana dashboard matches its generator
+        run: |
+          python3 observability/grafana/make_dashboard.py
+          git diff --exit-code observability/grafana/dashboards
 
   # Only on pushes to main: publish the image to GitHub Container Registry.
   deploy:

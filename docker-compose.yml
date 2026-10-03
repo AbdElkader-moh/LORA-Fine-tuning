@@ -1,0 +1,66 @@
+# Model API + the monitoring stack.
+#   docker compose up -d --build
+#   API        http://localhost:8000   (API_PORT to change)
+#   Prometheus http://localhost:9090   (alerts under /alerts)
+#   Grafana    http://localhost:3000   dashboard "ViT-LoRA AI observability" (admin / admin)
+services:
+  api:
+    build: .
+    image: vit-lora-api
+    ports: ["${API_PORT:-8000}:8000"]
+    environment:
+      DRIFT_WINDOW: "200"
+      PERFORMANCE_WINDOW: "200"
+    volumes:
+      - ./artifacts:/app/artifacts:ro        # model_int8.pt, model_meta.json, reference_profile.json
+      - monitoring-data:/app/monitoring_data # prediction + feedback log
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    ports: ["9090:9090"]
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./observability/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:12.1.0
+    ports: ["3000:3000"]
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/vit-observability.json
+    volumes:
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on: [prometheus]
+    restart: unless-stopped
+
+  # Host metrics (on Docker Desktop: the Linux VM that runs the containers).
+  node-exporter:
+    image: prom/node-exporter:v1.9.1
+    command: ["--path.procfs=/host/proc", "--path.sysfs=/host/sys", "--path.rootfs=/rootfs"]
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    restart: unless-stopped
+
+  # Per-container CPU / memory / network.
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    command: ["--docker_only=true", "--housekeeping_interval=10s"]
+    privileged: true
+    devices: ["/dev/kmsg"]
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    restart: unless-stopped
+
+volumes:
+  monitoring-data:
+  prometheus-data:

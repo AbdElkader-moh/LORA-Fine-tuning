@@ -1,0 +1,106 @@
+groups:
+  - name: data-drift
+    rules:
+      - alert: InputDataDrift
+        expr: vit_drifted_features_share >= 0.3 and vit_drift_window_samples >= 30
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "{{ $value | humanizePercentage }} of input image features have drifted from the training data"
+          description: "Check /monitoring/drift for which features moved and in which direction."
+
+      - alert: FeatureDrift
+        expr: vit_feature_drift_psi > 0.25
+        for: 10m
+        labels: {severity: info}
+        annotations:
+          summary: "Input feature {{ $labels.feature }} drifted (PSI {{ $value | printf \"%.2f\" }})"
+
+      - alert: PredictionDrift
+        expr: vit_prediction_drift_psi > 0.25
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "Predicted-class mix has shifted from validation (PSI {{ $value | printf \"%.2f\" }})"
+
+      - alert: ConfidenceDrift
+        expr: vit_confidence_drift_psi > 0.25
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "Model confidence distribution has shifted (PSI {{ $value | printf \"%.2f\" }})"
+
+  - name: model-performance
+    rules:
+      - alert: ModelAccuracyDegraded
+        expr: (vit_baseline_accuracy - vit_window_accuracy) > 0.05 and vit_window_labelled_samples >= 50
+        for: 5m
+        labels: {severity: critical}
+        annotations:
+          summary: "Live accuracy is {{ $value | humanizePercentage }} below the release baseline"
+          description: "Measured on the latest labelled predictions. Consider retraining on recent data."
+
+      - alert: HighLowConfidenceRate
+        expr: >
+          sum(rate(vit_low_confidence_predictions_total[10m]))
+          / clamp_min(sum(rate(vit_predictions_total[10m])), 1e-9) > 0.2
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "More than 20% of predictions have confidence below 0.5"
+
+  - name: service
+    rules:
+      - alert: ModelAPIDown
+        expr: up{job="vit-api"} == 0
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: "The model API is not answering Prometheus scrapes"
+
+      - alert: HighErrorRate
+        expr: >
+          sum(rate(vit_http_requests_total{status=~"5.."}[5m]))
+          / clamp_min(sum(rate(vit_http_requests_total[5m])), 1e-9) > 0.05
+        for: 5m
+        labels: {severity: critical}
+        annotations:
+          summary: "More than 5% of requests return 5xx"
+
+      - alert: HighPredictLatency
+        expr: >
+          histogram_quantile(0.95, sum by (le) (rate(vit_http_request_duration_seconds_bucket{path="/predict"}[5m]))) > 1
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "p95 /predict latency is {{ $value | humanizeDuration }}"
+
+  - name: infrastructure
+    rules:
+      - alert: HostHighCPU
+        expr: 100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m]))) > 90
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "Host CPU above 90% for 10 minutes"
+
+      - alert: HostHighMemory
+        expr: 1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes > 0.9
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "Host memory above 90%"
+
+      - alert: HostDiskAlmostFull
+        expr: vit_system_disk_used_percent > 90
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "Disk holding the prediction log is {{ $value | printf \"%.0f\" }}% full"
+
+      - alert: APIMemoryHigh
+        expr: vit_process_resident_memory_bytes > 2e9
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "API process uses {{ $value | humanize1024 }}B of RAM"

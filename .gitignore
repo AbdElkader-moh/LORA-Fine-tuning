@@ -12,3 +12,6 @@ artifacts/*
 !artifacts/.gitkeep
 *.onnx
 *.trt
+
+# prediction log written by the API
+monitoring_data/

@@ -1,0 +1,7 @@
+apiVersion: 1
+providers:
+  - name: vit-observability
+    folder: ViT-LoRA
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards

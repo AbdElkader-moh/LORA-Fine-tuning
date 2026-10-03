@@ -8,3 +8,5 @@ tests
 samples
 *.ipynb
 __pycache__
+monitoring_data
+observability

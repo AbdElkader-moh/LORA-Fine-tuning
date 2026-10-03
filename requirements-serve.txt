@@ -6,3 +6,5 @@ uvicorn==0.38.0
 python-multipart==0.0.32
 pillow==12.3.0
 numpy==2.4.6
+prometheus-client==0.17.1
+psutil==5.9.5
